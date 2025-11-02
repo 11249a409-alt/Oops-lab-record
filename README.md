@@ -498,63 +498,7 @@ Name: Charlie, Roll No: 103
 
 ◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 
-**Program 8: Illustrate Memory Management Operators in C++
-
- **Aim:**
-
-To illustrate the use of **memory management operators (`new` and `delete`)** for dynamic allocation and deallocation of memory in C++.
-
-
-
- **Algorithm:**
-
-1. Start the program.
-2. Use the `new` operator to dynamically allocate memory for variables and arrays on the heap.
-3. Assign values to the dynamically allocated memory.
-4. Display the stored values using pointers.
-5. Use the `delete` operator to deallocate memory for a single variable.
-6. Use `delete[]` to deallocate memory for arrays.
-7. Set pointers to `nullptr` after deletion to avoid dangling pointers.
-8. Stop the program.
-
----
-
-### **Source Code:**
-
-```cpp
-#include <iostream>
-using namespace std;
-
-int main() {
-    // Dynamic allocation for a single integer
-    int* singleInt = new int;
-    *singleInt = 25;
-    cout << "Value of singleInt: " << *singleInt << endl;
-
-    // Dynamic allocation for an array of integers
-    int size = 3;
-    int* dynamicArray = new int[size];
-
-    for (int i = 0; i < size; ++i) {
-        dynamicArray[i] = (i + 1) * 10;
-    }
-
-    cout << "Elements of dynamicArray: ";
-    for (int i = 0; i < size; ++i) {
-        cout << dynamicArray[i] << " ";
-    }
-    cout << endl;
-
-    // Deallocate memory
-    delete singleInt;
-    singleInt = nullptr; // Good practice to set pointer to nullptr after deletion
-
-    delete[] dynamicArray;
-    dynamicArray = nullptr; // Good practice to set pointer to nullptr after deletion
-
-    return 0;
-}
-
+*
 
 Result:
 Value of singleInt: 25
@@ -625,134 +569,556 @@ int main() {
 
 The value of Private Variable = 10
 The value of Protected Variable = 99
-□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
-**Program 10: Inheritance – Area of Triangle, Circle, and Rectangle (C++)**
+□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□
 
----
 
+## **Program 8: Illustrate Memory Management Operators (`new` and delete )
 **Aim:**
 
-To demonstrate the concept of **inheritance** in C++ by calculating the area of a **Triangle**, **Circle**, and **Rectangle** using base and derived classes.
+To illustrate the use of **memory management operators** — `new` and `delete` — in C++ for **dynamic allocation and deallocation** of memory.
 
 ---
 
-**Algorithm:**
+## **8(a) Allocating and Deallocating a Single Variable**
+
+---
+
+### **Algorithm:**
 
 1. Start the program.
-2. Define a base class `Shape` with a **virtual function `area()`**.
-3. Derive three classes from `Shape`:
-
-   * `Triangle` – for calculating area = ½ × base × height.
-   * `Circle` – for calculating area = π × r².
-   * `Rectangle` – for calculating area = length × breadth.
-4. Use a menu-driven approach to choose the shape.
-5. Create an object of the respective derived class and calculate the area.
-6. Display the result.
+2. Use the `new` operator to dynamically allocate memory for a single integer.
+3. Assign a value to the allocated memory.
+4. Display the stored value.
+5. Use the `delete` operator to deallocate the memory.
+6. Set the pointer to `nullptr` to prevent dangling pointer issues.
 7. Stop the program.
 
 ---
 
-**Source Code:**
+### **Source Code:**
 
-
+```cpp
 #include <iostream>
-#include <cmath>
 using namespace std;
 
-// Base class
-class Shape {
-public:
-    virtual void area() = 0; // Pure virtual function
-};
-
-// Derived class for Triangle
-class Triangle : public Shape {
-    float base, height;
-public:
-    void getData() {
-        cout << "Enter base of the triangle: ";
-        cin >> base;
-        cout << "Enter height of the triangle: ";
-        cin >> height;
-    }
-    void area() {
-        cout << "Area of Triangle = " << 0.5 * base * height << endl;
-    }
-};
-
-// Derived class for Circle
-class Circle : public Shape {
-    float radius;
-public:
-    void getData() {
-        cout << "Enter radius of the circle: ";
-        cin >> radius;
-    }
-    void area() {
-        cout << "Area of Circle = " << M_PI * radius * radius << endl;
-    }
-};
-
-// Derived class for Rectangle
-class Rectangle : public Shape {
-    float length, breadth;
-public:
-    void getData() {
-        cout << "Enter length of the rectangle: ";
-        cin >> length;
-        cout << "Enter breadth of the rectangle: ";
-        cin >> breadth;
-    }
-    void area() {
-        cout << "Area of Rectangle = " << length * breadth << endl;
-    }
-};
-
-// Main function
 int main() {
-    Shape* shapePtr; // Base class pointer
-    Triangle t;
-    Circle c;
-    Rectangle r;
-    int choice;
+    // Dynamically allocate memory for an integer and initialize it to 10
+    int* ptr_int = new int(10);
 
-    cout << "1. Triangle\n2. Circle\n3. Rectangle\n";
-    cout << "Enter your choice (1-3): ";
-    cin >> choice;
+    // Print the value stored at the allocated address
+    cout << "Value of dynamically allocated integer: " << *ptr_int << endl;
 
-    switch (choice) {
-        case 1:
-            shapePtr = &t;
-            t.getData();
-            shapePtr->area();
-            break;
-        case 2:
-            shapePtr = &c;
-            c.getData();
-            shapePtr->area();
-            break;
-        case 3:
-            shapePtr = &r;
-            r.getData();
-            shapePtr->area();
-            break;
-        default:
-            cout << "Invalid choice!" << endl;
+    // Deallocate the memory to prevent a memory leak
+    delete ptr_int;
+    ptr_int = nullptr; // Set the pointer to nullptr after deletion
+
+    return 0;
+}
+```
+
+---
+
+### **Result:**
+
+```
+Value of dynamically allocated integer: 10
+```
+
+---
+
+### **Conclusion:**
+
+The program successfully demonstrates how to **dynamically allocate and deallocate** memory for a single variable using `new` and `delete`.
+
+---
+
+ **8(b) Allocating and Deallocating a Dynamic Array**
+
+---
+
+### **Algorithm:**
+
+1. Start the program.
+2. Ask the user for the size of the array.
+3. Dynamically allocate memory for an integer array using `new[]`.
+4. Input array elements and display them.
+5. Deallocate memory using `delete[]`.
+6. Set the pointer to `nullptr`.
+7. Stop the program.
+
+---
+
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int size;
+    cout << "Enter the number of elements for the dynamic array: ";
+    cin >> size;
+
+    // Dynamically allocate memory for an array of integers
+    int* dynamic_array = new int[size];
+
+    // Read values into the array
+    cout << "Enter " << size << " integer values:" << endl;
+    for (int i = 0; i < size; i++) {
+        cin >> dynamic_array[i];
     }
+
+    // Print the array elements
+    cout << "The elements of the dynamic array are: ";
+    for (int i = 0; i < size; i++) {
+        cout << dynamic_array[i] << " ";
+    }
+    cout << endl;
+
+    // Deallocate the entire array
+    delete[] dynamic_array;
+    dynamic_array = nullptr;
 
     return 0;
 }
 
+---
+
+### **Result (Sample Output):**
+
+Enter the number of elements for the dynamic array: 5
+Enter 5 integer values:
+1 2 3 4 5
+The elements of the dynamic array are: 1 2 3 4 5
+
+
+-------—------------------------------
+
+## **8(c) Dynamic Object Creation with Constructors and Destructors**
+
+
+### **Algorithm:**
+
+1. Define a class `Box` with a constructor and destructor.
+2. Dynamically allocate a single object using `new`.
+3. Use `delete` to deallocate the object and observe destructor call.
+4. Dynamically create an array of objects using `new[]`.
+5. Use `delete[]` to deallocate the array.
+6. Observe automatic constructor and destructor calls.
+7. Stop the program.
 
 ---
 
-Result (Sample Output):
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Box {
+public:
+    // Constructor
+    Box(int length) {
+        this->length = length;
+        cout << "Constructor for a box of length " << length << " is called." << endl;
+    }
+
+    // Destructor
+    ~Box() {
+        cout << "Destructor for a box of length " << length << " is called." << endl;
+    }
+
+private:
+    int length;
+};
+
+int main() {
+    // Create a single Box object dynamically
+    Box* myBox = new Box(5);
+
+    // Deallocate the object, which calls the destructor
+    delete myBox;
+    myBox = nullptr;
+
+    // Create a dynamic array of Box objects
+    Box* boxArray = new Box[3]{Box(1), Box(2), Box(3)};
+
+    // Deallocate the array, calling the destructor for each element
+    delete[] boxArray;
+    boxArray = nullptr;
+
+    return 0;
+}
+```
 
 
-1. Triangle
-2. Circle
-3. Rectangle
-Enter your choice (1-3): 1
-Enter base of the triangle: 10
-Enter height of the triangle: 5
-Area of Triangle = 25
+
+**Result (Sample Output):**
+
+Constructor for a box of length 5 is called.
+Destructor for a box of length 5 is called.
+Constructor for a box of length 1 is called.
+Constructor for a box of length 2 is called.
+Constructor for a box of length 3 is called.
+Destructor for a box of length 3 is called.
+Destructor for a box of length 2 is called.
+Destructor for a box of length 1 is called.
+
+
+**8(d) Illustrative Program – Combined Example**
+
+
+
+### **Algorithm:**
+
+1. Dynamically allocate memory for a single integer and assign a value.
+2. Dynamically allocate memory for an integer array and store values.
+3. Display both single integer and array values.
+4. Deallocate all memory and set pointers to `nullptr`.
+5. Stop the program.
+
+---
+
+### **Source Code:**
+#include <iostream>
+using namespace std;
+
+int main() {
+    // Dynamic allocation for a single integer
+    int* singleInt = new int;
+    *singleInt = 25;
+    cout << "Value of singleInt: " << *singleInt << endl;
+
+    // Dynamic allocation for an array of integers
+    int size = 3;
+    int* dynamicArray = new int[size];
+    for (int i = 0; i < size; ++i) {
+        dynamicArray[i] = (i + 1) * 10;
+    }
+
+    cout << "Elements of dynamicArray: ";
+    for (int i = 0; i < size; ++i) {
+        cout << dynamicArray[i] << " ";
+    }
+    cout << endl;
+
+    // Deallocate memory
+    delete singleInt;
+    singleInt = nullptr; // Prevent dangling pointer
+
+    delete[] dynamicArray;
+    dynamicArray = nullptr; // Prevent dangling pointer
+
+    return 0;
+}
+```
+
+---
+
+### **Result:**
+
+```
+Value of singleInt: 25
+Elements of dynamicArray: 10 20 30
+-------------------------------------
+## **Program 9(a): Friend Class**
+
+---
+
+### **Aim:**
+
+To demonstrate the concept of a **friend class** in C++ and show how one class can access private and protected members of another class.
+
+---
+
+### **Algorithm:**
+
+1. Start the program.
+2. Define a class `Geeks` with private and protected data members.
+3. Declare another class `GFG` as a **friend class** inside `Geeks`.
+4. Define a function inside `GFG` that accesses private and protected members of `Geeks`.
+5. Create objects of both classes and call the display function.
+6. Stop the program.
+
+---
+
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class Geeks {
+private:
+    int private_variable;
+
+protected:
+    int protected_variable;
+
+public:
+    Geeks() {
+        private_variable = 10;
+        protected_variable = 99;
+    }
+
+    // Friend class declaration
+    friend class GFG;
+};
+
+// Class GFG can access private members of Geeks
+class GFG {
+public:
+    void display(Geeks& t) {
+        cout << "The value of Private Variable = "
+             << t.private_variable << endl;
+        cout << "The value of Protected Variable = "
+             << t.protected_variable;
+    }
+};
+
+int main() {
+    Geeks g;
+    GFG fri;
+    fri.display(g);
+    return 0;
+}
+```
+
+---
+
+### **Output:**
+
+```
+The value of Private Variable = 10
+The value of Protected Variable = 99
+```
+
+---
+
+
+## **Program 9(b): Friend Function**
+
+---
+
+### **Aim:**
+
+To illustrate the concept of a **friend function** in C++ that can access private and protected members of a class.
+
+---
+
+### **Algorithm:**
+
+1. Start the program.
+2. Define a class `base` with private and protected members.
+3. Declare a **friend function** that can access these members.
+4. Define the friend function outside the class.
+5. Create an object of `base` and call the friend function.
+6. Display the values of private and protected members.
+7. Stop the program.
+
+---
+
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+class base {
+private:
+    int private_variable;
+
+protected:
+    int protected_variable;
+
+public:
+    base() {
+        private_variable = 10;
+        protected_variable = 99;
+    }
+
+    // Friend function declaration
+    friend void friendFunction(base& obj);
+};
+
+// Friend function definition
+void friendFunction(base& obj) {
+    cout << "Private Variable: " << obj.private_variable << endl;
+    cout << "Protected Variable: " << obj.protected_variable;
+}
+
+int main() {
+    base object1;
+    friendFunction(object1);
+    return 0;
+}
+```
+
+---
+
+### **Output:**
+
+```
+Private Variable: 10
+Protected Variable: 99
+```
+
+---
+
+### **Explanation:**
+
+* `friendFunction()` is a **non-member function**, but it can access private and protected members of the class `base`.
+* It is declared as a **friend** inside the class definition.
+* A friend function can be declared in **any section** (private, public, or protected).
+
+---
+
+## **Program 9(c): Member Function of Another Class as Friend Function**
+
+---
+
+### **Aim:**
+
+To demonstrate how a **member function of another class** can be declared as a **friend** of a class in C++.
+
+---
+
+### **Algorithm:**
+
+1. Start the program.
+2. Forward declare class `base`.
+3. Define another class `GFG` with a member function `GFG_Function()`.
+4. In class `base`, declare `GFG_Function()` as a **friend function**.
+5. Define the function outside both classes using the **scope resolution operator**.
+6. Create objects of both classes and call the function.
+7. Stop the program.
+
+---
+
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+// Forward Declaration
+class base;
+
+// Another class in which function is declared
+class GFG {
+public:
+    void GFG_Function(base& obj);
+};
+
+// Base class declares a friend function of another class
+class base {
+private:
+    int private_variable;
+
+protected:
+    int protected_variable;
+
+public:
+    base() {
+        private_variable = 10;
+        protected_variable = 99;
+    }
+
+    // Friend function declaration
+    friend void GFG::GFG_Function(base&);
+};
+
+// Friend function definition
+void GFG::GFG_Function(base& obj) {
+    cout << "Private Variable: " << obj.private_variable << endl;
+    cout << "Protected Variable: " << obj.protected_variable;
+}
+
+int main() {
+    base object1;
+    GFG object2;
+    object2.GFG_Function(object1);
+
+    return 0;
+}
+```
+
+---
+
+### **Output:**
+
+```
+Private Variable: 10
+Protected Variable: 99
+-------------------------------------
+## ✅ **Program 10: Exception Handling in C++**
+
+---
+
+### **Aim:**
+
+To demonstrate **exception handling** in C++ using `try`, `throw`, and `catch` blocks.
+
+---
+
+### **Algorithm:**
+
+1. Start the program.
+2. Accept two integers from the user as input.
+3. Check if the denominator is zero.
+4. If zero, **throw an exception**.
+5. If not zero, perform division operation.
+6. Catch the thrown exception and display an error message.
+7. End the program.
+
+---
+
+### **Source Code:**
+
+```cpp
+#include <iostream>
+using namespace std;
+
+int main() {
+    int numerator, denominator;
+    
+    cout << "Enter numerator: ";
+    cin >> numerator;
+    cout << "Enter denominator: ";
+    cin >> denominator;
+
+    try {
+        if (denominator == 0) {
+            throw "Error! Division by zero is not allowed.";
+        }
+        double result = (double)numerator / denominator;
+        cout << "Result = " << result << endl;
+    }
+    catch (const char* msg) {
+        cout << msg << endl;
+    }
+
+    return 0;
+}
+```
+
+---
+
+### **Output:**
+
+✅ Case 1: Valid input
+
+```
+Enter numerator: 20
+Enter denominator: 4
+Result = 5
+```
+
+❌ Case 2: Division by zero
+
+```
+Enter numerator: 10
+Enter denominator: 0
+Error! Division by zero is not allowed.
+```
+
